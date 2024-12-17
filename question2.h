@@ -1,6 +1,7 @@
 #ifndef QUESTION2_H
 #define QUESTION2_H
 
-int process_command();
+int process_command(void);
 
 #endif
+

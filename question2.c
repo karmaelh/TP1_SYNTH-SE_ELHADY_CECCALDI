@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "question2.h"
 
-int process_command()
+int process_command(void)
 {
     char buffer[50];
     const char *prompt = "enseash % ";
@@ -22,7 +22,7 @@ int process_command()
         // Vérifier la commande "exit"
         if (strcmp(buffer, "exit") == 0)
         {
-            return 0; // Signaler la fin du shell
+            exit(EXIT_SUCCESS); // Signaler la fin du shell
         }
         else
         {
