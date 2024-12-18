@@ -8,7 +8,7 @@
 // Driver code
 
 
-void display_exit_code(int status)
+void display_exit_code(int status, long exec_time)
 {
     char prompt[100];
     int length = 0;

@@ -62,7 +62,8 @@ int main()
         clock_gettime(CLOCK_MONOTONIC, &end);
 
         measure_execution_time(&start, &end, &exec_time);
-        display_exit_code(status);
+
+        display_exit_code(status, exec_time);
     }
 
     return 0;
