@@ -42,4 +42,3 @@ void resolve_host(const char *host) {
     freeaddrinfo(res); // Free the linked list
     write(STDOUT_FILENO, RESOLVED_MSG, strlen(RESOLVED_MSG));
 }
-

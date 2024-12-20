@@ -1,18 +1,21 @@
 #include <unistd.h>
+#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <time.h>
 #include <sys/wait.h>
+#include <fcntl.h>
 #include "question1.h"
 #include "question2.h"
 #include "question4.h"
 #include "question5.h"
+#include "question7.h"
 
 #define BUFFSIZE 1024
 #define NB_ARG_MAX 20
+#define NbOfCaract 11
 
-int main()
-{
+int main() {
     char buf[BUFFSIZE];
     char *args[NB_ARG_MAX];
     ssize_t command_size;
@@ -21,53 +24,76 @@ int main()
     struct timespec start, end;
     pid_t pid;
 
-    const char commandNotFound[]="Command not found\n";
+    const char commandNotFound[] = "Command not found\n";
 
+    // Display welcome message
     show_welcome_message();
-    write(STDOUT_FILENO, "enseash % ", 11);
 
-    while (1)
-    {
+    // Display the initial prompt
+    write(STDOUT_FILENO, "enseash % ", NbOfCaract);
+
+    while (1) {
+        // Read the command entered by the user
         command_size = read(STDIN_FILENO, buf, BUFFSIZE);
-        if (command_size <= 0){
+        if (command_size <= 0) {
             continue;
         }
 
-        buf[command_size - 1] = '\0'; // Remplace \n par \0 pour détecter la fin de chaine de caractere 
-        
+        // Replace the final \n with \0
+        buf[command_size - 1] = '\0';
+
+        // Split the command into arguments
         args[0] = strtok(buf, " ");
-        for (int i = 1; i < NB_ARG_MAX; i++)
-        {
+        for (int i = 1; i < NB_ARG_MAX; i++) {
             args[i] = strtok(NULL, " ");
             if (args[i] == NULL)
                 break;
         }
 
+        // If no command is entered, display the prompt again
+        if (args[0] == NULL) {
+            write(STDOUT_FILENO, "enseash % ", NbOfCaract);
+            continue;
+        }
+
+        // Measure the start time
         clock_gettime(CLOCK_MONOTONIC, &start);
-        //handle_redirection(args);
-        //execute_command(args, command_size);
-        if((pid=fork())==-1){
-            // gestion en cas d'erreur de fork
+
+        // Create a child process
+        if ((pid = fork()) == -1) {
+            // Handle fork error
+            perror("fork");
             exit(EXIT_FAILURE);
         }
 
-        if(pid == 0){//son process
-            execvp(args[0],args);            // Command not found
+        if (pid == 0) { // Child process
+            // Handle input/output redirection before execution
+            handle_redirection(args);
+
+            // Execute the command with its arguments
+            execvp(args[0], args);
+
+            // If the command fails
             write(STDOUT_FILENO, commandNotFound, strlen(commandNotFound));
             exit(EXIT_FAILURE);
-        }
-        else{ // father
+        } else { // Parent process
+            // Wait for the child process to finish
             wait(&status);
         }
+
+        // Measure the end time
         clock_gettime(CLOCK_MONOTONIC, &end);
 
+        // Calculate the execution time
         measure_execution_time(&start, &end, &exec_time);
 
-        display_exit_code(status, exec_time);
+        // Display the return code and execution time
+        display_exit_code_with_time(status, exec_time);
     }
 
     return 0;
 }
+
 
 
 

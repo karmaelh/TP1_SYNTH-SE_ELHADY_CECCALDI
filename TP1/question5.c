@@ -1,27 +1,32 @@
-#include <time.h>
-#include "question5.h"
+#include <stdio.h>
+#include <sys/wait.h>
 #include <unistd.h>
+#include "question5.h"
 #include <string.h>
-#include <stdlib.h>
 
-void measure_execution_time(struct timespec *start, struct timespec *end, long *exec_time)
-{
-    *exec_time = (end->tv_sec - start->tv_sec) * 1000 + (end->tv_nsec - start->tv_nsec) / 1000000;
+#define NANO_TO_MILLI 1000000
+#define NbOfCaract 11
+
+void measure_execution_time(const struct timespec *start, const struct timespec *end, long *exec_time) {
+    // Calculate execution time in milliseconds
+    *exec_time = (end->tv_sec - start->tv_sec) * 1000 +
+                 (end->tv_nsec - start->tv_nsec) / NANO_TO_MILLI;
 }
 
-void display_exit_code(int status, long exec_time)
-{
-    char buffer[128];
-    int length = 0;
+void display_exit_code_with_time(int status, long exec_time) {
+    char buffer[64];
 
-    if (WIFEXITED(status))
-    {
-        length = snprintf(buffer, sizeof(buffer), "[exit:%d|%ldms]\n", WEXITSTATUS(status), exec_time);
+    if (WIFEXITED(status)) {
+        int exit_code = WEXITSTATUS(status);
+        snprintf(buffer, sizeof(buffer), "[exit:%d|%ldms] ", exit_code, exec_time);
+    } else if (WIFSIGNALED(status)) {
+        int signal = WTERMSIG(status);
+        snprintf(buffer, sizeof(buffer), "[sign:%d|%ldms] ", signal, exec_time);
+    } else {
+        snprintf(buffer, sizeof(buffer), "[unknown|%ldms] ", exec_time);
     }
-    else if (WIFSIGNALED(status))
-    {
-        length = snprintf(buffer, sizeof(buffer), "[sign:%d|%ldms]\n", WTERMSIG(status), exec_time);
-    }
-    write(STDOUT_FILENO, buffer, length);
+
+    // Display the prompt with the status
+    write(STDOUT_FILENO, buffer, strlen(buffer));
+    write(STDOUT_FILENO, "enseash % ", NbOfCaract);
 }
-

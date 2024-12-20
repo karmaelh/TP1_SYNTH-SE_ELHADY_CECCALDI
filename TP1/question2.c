@@ -9,20 +9,20 @@ int process_command(void)
     const char *prompt = "enseash % ";
     const char *unknown_cmd = "Unknown command...\n";
 
-    // Afficher le prompt
+    // Display the prompt
     write(STDOUT_FILENO, prompt, strlen(prompt));
 
-    // Lire la commande
+    // Read the user command
     ssize_t bytes_read = read(STDIN_FILENO, buffer, sizeof(buffer) - 1);
 
     if (bytes_read > 0)
     {
-        buffer[bytes_read - 1] = '\0'; // Remplacer le retour à la ligne par un terminateur
+        buffer[bytes_read - 1] = '\0'; // Replace newline with null terminator
 
-        // Vérifier la commande "exit"
+        // Check for the "exit" command
         if (strcmp(buffer, "exit") == 0)
         {
-            exit(EXIT_SUCCESS); // Signaler la fin du shell
+            exit(EXIT_SUCCESS); // Exit the shell
         }
         else
         {
@@ -30,5 +30,5 @@ int process_command(void)
         }
     }
 
-    return 1; // Continuer le shell
+    return 1; // Continue the shell loop
 }
