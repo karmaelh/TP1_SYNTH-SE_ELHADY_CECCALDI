@@ -1,19 +1,19 @@
 # TP1 Synthèse Système - Projet EnseaSH
 
 ## **Introduction**
-Ce projet consiste à développer un mini-shell, nommé **EnseaSH**, en langage C. Ce shell permet d'exécuter des commandes de base de manière interactive, avec des fonctionnalités telles que la gestion des redirections d'entrée et de sortie, la mesure du temps d'exécution des commandes, et la gestion des erreurs.
+Ce projet consiste à développer un mini-shell EnseaSh en langage C. Ce shell permet d'exécuter des commandes de base de manière interactive, avec des fonctionnalités telles que la gestion des redirections d'entrée et de sortie, la mesure du temps d'exécution des commandes, et la gestion des erreurs.
 
 Ce document explique les objectifs, les fonctionnalités principales et les parties importantes du code.
 
 ---
 
-## **Objectifs du projet**
+## OBJECTIFS DU PROJET
 
-1. **Créer un shell interactif** permettant l'exécution de commandes utilisateur comme dans un terminal classique.
-2. **Gérer les redirections d'entrée et de sortie** pour manipuler les fichiers.
-3. **Mesurer le temps d'exécution des commandes** et afficher les codes de retour des processus enfant.
-4. **Implémenter une structure modulaire** avec des fichiers dédiés à des fonctionnalités spécifiques (redirection, gestion des processus, etc.).
-5. **Faciliter la maintenance et la compréhension du code** en suivant les bonnes pratiques de programmation.
+- Créer un shell interactif permettant l'exécution de commandes utilisateur comme dans un terminal classique.
+- Gérer les redirections d'entrée et de sortie pour manipuler les fichiers.
+- Mesurer le temps d'exécution des commandes et afficher les codes de retour des processus enfant.
+- Implémenter une structure modulaire avec des fichiers dédiés à des fonctionnalités spécifiques (redirection, gestion des processus, etc.).
+- Faciliter la maintenance et la compréhension du code en suivant les bonnes pratiques de programmation.
 
 ---
 
@@ -24,7 +24,7 @@ Ce document explique les objectifs, les fonctionnalités principales et les part
 - Si l'utilisateur ne saisit rien, le prompt est réaffiché.
 
 ### 2. Exécution des commandes
-- Les commandes saisies sont analysées, et un processus enfant (à l'aide de `fork`) est créé pour exécuter la commande via `execvp`.
+- Les commandes saisies sont analysées, et un processus enfant (à l'aide de "fork") est créé pour exécuter la commande via "execvp".
 - En cas d'erreur (commande introuvable), un message est affiché.
 
 ### 3. Gestion des redirections (écriture et lecture)
@@ -34,11 +34,7 @@ Ce document explique les objectifs, les fonctionnalités principales et les part
 - Les arguments associés aux redirections sont traités et retirés des arguments passés à la commande.
 
 ### 4. Mesure du temps d'exécution
-- Le fichier "timer.c" calcule le temps d'exécution des commandes en millisecondes en utilisant `clock_gettime`.
-- Le temps d'exécution est affiché dans le prompt suivant le format :
-  ```
-  [exit:<code>|<temps>ms] enseash %
-  ```
+- Le fichier "timer.c" calcule le temps d'exécution des commandes en millisecondes en utilisant "clock_gettime".
 
 ### 5. Affichage des codes de sortie et des signaux
 - Les codes de retour ou signaux d'erreur (éventuellement causés par une interruption) sont affichés.
