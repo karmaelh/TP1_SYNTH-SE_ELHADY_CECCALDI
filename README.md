@@ -1,4 +1,4 @@
-# TP1 Synthèse Système@@@
+# TP1 Synthèse Système
 
 ## **Introduction**
 Ce projet consiste à développer un mini-shell EnseaSh en langage C. Ce shell permet d'exécuter des commandes de base de manière interactive, avec des fonctionnalités telles que la gestion des redirections d'entrée et de sortie, la mesure du temps d'exécution des commandes, et la gestion des erreurs.
