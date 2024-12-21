@@ -24,8 +24,8 @@ Les commandes saisies sont analysées, et un processus enfant (à l'aide de "for
 ### 3. Gestion des redirections (écriture et lecture)
 
 - Le fichier question7.c gère les redirections :
-  - `>` pour rediriger la sortie standard vers un fichier.
-  - `<` pour rediriger l'entrée standard depuis un fichier.
+  - ">" pour rediriger la sortie standard vers un fichier.
+  - "<" pour rediriger l'entrée standard depuis un fichier.
 - Les arguments associés aux redirections sont traités et retirés des arguments passés à la commande.
 
 ### 4. Mesure du temps d'exécution
